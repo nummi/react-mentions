@@ -419,6 +419,7 @@ class MentionsInput extends React.Component {
         return
       }
       case KEY.RETURN: {
+        ev.stopPropagation()
         this.selectFocused()
         return
       }

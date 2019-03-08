@@ -212,4 +212,28 @@ describe('MentionsInput', () => {
       expect(result).toEqual('/(?:^|\\s)(trigger([^trigger]*))$/')
     })
   })
+
+  it('should prevent event bubbling when told to', () => {
+    let count = 0;
+    const wrapper = mount(
+      <div id="parent">
+        <MentionsInput value="test">
+          <Mention trigger="@" data={data} />
+        </MentionsInput>
+      </div>,
+      {
+        attachTo: host,
+      }
+    )
+
+    wrapper.find('#parent').getDOMNode().addEventListener('keydown', function() {
+      count = 1;
+    })
+    wrapper.find('textarea').simulate('keyDown', {
+      key: 'Enter',
+      keyCode: 13,
+      which: 13,
+    })
+    expect(count).toEqual(1)
+  })
 })
